@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from encyclopedia.util import list_entries
+from encyclopedia.util import list_entries, get_entry
 
 
 def index(request):
@@ -8,6 +8,13 @@ def index(request):
     })
 
 def wiki(request, page_title):
-    return render(request, "encyclopedia/index.html", {
-        "page_title": page_title
-    })
+    entry = get_entry(page_title)
+    if entry:
+        return render(request, "encyclopedia/page.html", {
+            "page_title": page_title,
+            "content": entry
+        })
+    else:
+         return render(request, "encyclopedia/not_found.html", {
+             "page_title": page_title
+         })
