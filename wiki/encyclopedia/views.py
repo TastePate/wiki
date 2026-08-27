@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from encyclopedia.util import list_entries, get_entry
+from markdown2 import Markdown
 
 
 def index(request):
@@ -10,9 +11,10 @@ def index(request):
 def wiki(request, page_title):
     entry = get_entry(page_title)
     if entry:
+        markdowner = Markdown()
         return render(request, "encyclopedia/page.html", {
             "page_title": page_title,
-            "content": entry
+            "content": markdowner.convert(entry)
         })
     else:
          return render(request, "encyclopedia/not_found.html", {
