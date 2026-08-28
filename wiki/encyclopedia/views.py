@@ -69,3 +69,21 @@ def random(request: HttpRequest):
     entries = list_entries()
     random_page = choice(entries)
     return redirect("encyclopedia:wiki", page_title=random_page)
+
+
+def search(request: HttpRequest):
+    search_input = request.GET.get("q").lower()
+    entries = list_entries()
+    result = []
+    for entry in entries:
+        if search_input == entry.lower():
+            return redirect("encyclopedia:wiki", page_title=search_input)
+        if search_input in entry.lower():
+            result.append(entry)
+
+    return render(request, "encyclopedia/search.html", {
+        "entries": result,
+        "search_input": search_input
+    })
+
+
