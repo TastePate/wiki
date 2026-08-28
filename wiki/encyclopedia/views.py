@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from encyclopedia.util import list_entries, get_entry, save_entry
 from markdown2 import Markdown
+from random import choice
 
 class NewArticleForm(forms.Form):
     title = forms.CharField(label="Title")
@@ -63,3 +64,8 @@ def edit(request: HttpRequest, page_title):
             "new_content": old_content
         })
     })
+
+def random(request: HttpRequest):
+    entries = list_entries()
+    random_page = choice(entries)
+    return redirect("encyclopedia:wiki", page_title=random_page)
