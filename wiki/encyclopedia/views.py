@@ -10,6 +10,10 @@ class NewArticleForm(forms.Form):
     content = forms.CharField(label="Content", widget=forms.Textarea)
 
 
+class NewEditForm(forms.Form):
+    new_content = forms.CharField(label="Edit Article's Content", widget=forms.Textarea)
+
+
 def index(request: HttpRequest):
     return render(request, "encyclopedia/index.html", {
         "entries": list_entries,
@@ -36,7 +40,7 @@ def add(request: HttpRequest):
             content = form.cleaned_data["content"]
             if title not in list_entries():
                 save_entry(title, content)
-                return redirect(f"encyclopedia:wiki", page_title=title)
+                return redirect("encyclopedia:wiki", page_title=title)
             else:
                 messages.error(request, f"An article with name {title} already exists!")
 
@@ -44,4 +48,18 @@ def add(request: HttpRequest):
         "form": NewArticleForm(),
     })
 
+def edit(request: HttpRequest, page_title):
+    old_content = get_entry(page_title)
+    if request.method == "POST":
+        form = NewEditForm(request.POST)
+        if form.is_valid():
+            new_content = form.cleaned_data["new_content"]
+            save_entry(page_title, new_content)
+            return redirect("encyclopedia:wiki", page_title=page_title)
 
+    return render(request, "encyclopedia/edit.html", {
+        "page_title": page_title,
+        "form": NewEditForm(initial={
+            "new_content": old_content
+        })
+    })
