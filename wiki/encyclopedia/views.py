@@ -7,8 +7,12 @@ from markdown2 import Markdown
 from random import choice
 
 class NewArticleForm(forms.Form):
-    title = forms.CharField(label="Title")
-    content = forms.CharField(label="Content", widget=forms.Textarea)
+    title = forms.CharField(widget=forms.TextInput(attrs={
+        "id": "add-title-textbox"
+    }))
+    content = forms.CharField(widget=forms.Textarea(attrs={
+        "id": "add-content-textarea"
+    }))
 
 
 class NewEditForm(forms.Form):

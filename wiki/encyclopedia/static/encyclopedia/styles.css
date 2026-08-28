@@ -1,7 +1,9 @@
 body {
     margin: 0;
     background-color: white;
+    overflow-wrap: break-word;
 }
+
 
 code {
     white-space: pre;
@@ -13,7 +15,8 @@ h1 {
 }
 
 textarea {
-    height: 90vh;
+    height: 70vh;
+    max-height: 70vh;
     width: 80%;
 }
 
@@ -29,10 +32,34 @@ textarea {
 
 .sidebar {
     background-color: #f0f0f0;
-    height: 100vh;
+    min-height: 100vh;
     padding: 20px;
 }
 
 .sidebar h2 {
     margin-top: 5px;
+}
+
+.row {
+    margin: 0;
+}
+
+.search-container {
+    display: grid;
+    grid-auto-flow: column;
+}
+
+.add-container {
+    display: flex;
+    padding-left: 50px;
+    gap: 10px;
+    flex-direction: column;
+}
+
+.add-container > input[type="submit"] {
+    width: 10%;
+}
+
+.add-container > input[type="text"] {
+    width: 80%;
 }
